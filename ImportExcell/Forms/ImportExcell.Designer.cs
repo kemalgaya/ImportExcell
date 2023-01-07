@@ -44,6 +44,7 @@
             this.btnImportExcell = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
+            this.btnSaveAnother = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.txtExcellColumn.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTableColumn.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDataType.Properties)).BeginInit();
@@ -190,11 +191,22 @@
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
+            // btnSaveAnother
+            // 
+            this.btnSaveAnother.Location = new System.Drawing.Point(683, 261);
+            this.btnSaveAnother.Name = "btnSaveAnother";
+            this.btnSaveAnother.Size = new System.Drawing.Size(195, 23);
+            this.btnSaveAnother.TabIndex = 16;
+            this.btnSaveAnother.Text = "Save Column Another Table";
+            this.btnSaveAnother.UseVisualStyleBackColor = true;
+            this.btnSaveAnother.Click += new System.EventHandler(this.btnSaveAnother_Click);
+            // 
             // ImportExcell
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1043, 457);
+            this.Controls.Add(this.btnSaveAnother);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnImportExcell);
@@ -244,5 +256,6 @@
         private System.Windows.Forms.Button btnImportExcell;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Button btnSaveAnother;
     }
 }

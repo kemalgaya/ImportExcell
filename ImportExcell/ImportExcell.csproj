@@ -61,6 +61,12 @@
     <Compile Include="Forms\ImportExcell.Designer.cs">
       <DependentUpon>ImportExcell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SaveAnotherTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SaveAnotherTable.Designer.cs">
+      <DependentUpon>SaveAnotherTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SqlConn.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +77,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\ImportExcell.resx">
       <DependentUpon>ImportExcell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SaveAnotherTable.resx">
+      <DependentUpon>SaveAnotherTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SqlConn.resx">
       <DependentUpon>SqlConn.cs</DependentUpon>

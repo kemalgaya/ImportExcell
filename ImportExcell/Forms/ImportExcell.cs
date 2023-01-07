@@ -17,7 +17,7 @@ namespace ImportExcell.Forms
     {
 
         #region Variables
-        Classes.SQL sqlCmd=new Classes.SQL();
+        Classes.SQL sqlCmd = new Classes.SQL();
         DataTable dt = new DataTable();
         List<string> vTur = new List<string>();
 
@@ -49,9 +49,9 @@ namespace ImportExcell.Forms
         }
         private void ImportExcell_Load(object sender, EventArgs e)
         {
-            var vForm=new SqlConn();
+            var vForm = new SqlConn();
             vForm.ShowDialog();
-            sqlCmd.SetValues(vForm.ServerName,vForm.InstanceName,vForm.UserName,vForm.Password,vForm.InitialCatalog);
+            sqlCmd.SetValues(vForm.ServerName, vForm.InstanceName, vForm.UserName, vForm.Password, vForm.InitialCatalog);
         }
         private void BtnReadExcell_Click(object sender, EventArgs e)
         {
@@ -169,10 +169,25 @@ namespace ImportExcell.Forms
         }
 
 
+
+
+
         #endregion
 
-       
-
         
+
+        private void btnSaveAnother_Click(object sender, EventArgs e)
+        {
+            var Vform = new SaveAnotherTable();
+            Vform.ShowDialog();
+
+             for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                string a = dt.Rows[i][Vform.ExcellColumn].ToString();
+                MessageBox.Show(a);
+            }
+
+
+        }
     }
 }
