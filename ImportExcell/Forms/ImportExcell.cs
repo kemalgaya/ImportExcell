@@ -11,6 +11,8 @@ using DevExpress.XtraEditors;
 using System.Data.OleDb;
 using System.Globalization;
 using System.IO;
+using ImportExcell.Classes;
+
 namespace ImportExcell.Forms
 {
     public partial class ImportExcell : Form
@@ -44,6 +46,7 @@ namespace ImportExcell.Forms
         }
         private void btnRemove_Click(object sender, EventArgs e)
         {
+            vTur.Remove(txtDataType.Text);
             dataGridView1.Columns.Remove(txtExcellColumn.Text.ToString());
 
         }
@@ -82,39 +85,42 @@ namespace ImportExcell.Forms
         {
             if (txtDbName.EditValue != null)
             {
+                string s = "ID,";
                 dt.Columns[0].ColumnName.ToString();
-                string s = dataGridView1.Columns[0].Name.ToString();
+                s =s+ dataGridView1.Columns[0].Name.ToString();
                 for (int i = 1; i < dataGridView1.Columns.Count; i++)
                 {
                     s = s + "," + dataGridView1.Columns[i].Name.ToString();
                 }
                 //insert into kemalkartsend() values('kemal','gaya',1,1.5,15.03.1965);
-                string val = "temp";
+                
 
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
+                    string ID = sqlCmd.GetSequenceValue($"SQE_{txtDbName.Text}_ID").ToString();
+                    string val = $"{ID},";
                     if (vTur[0] == "int")
                     {
-                        val = "'" + Convert.ToInt32(dt.Rows[i][dt.Columns[0].Caption.ToString()].ToString()) + "'";
+                        val = val+ "'" + Convert.ToInt32(dt.Rows[i][dt.Columns[0].Caption.ToString()].ToString()) + "'";
 
                     }
                     else if (vTur[0] == "float")
                     {
                         string a = dt.Rows[i][dt.Columns[0].Caption.ToString()].ToString();
                         string replacement = a.Replace(',', '.');
-                        val = "'" + Convert.ToDouble(replacement) + "'";
+                        val = val + "'" + Convert.ToDouble(replacement) + "'";
 
                     }
                     else if (vTur[0] == "datetime")
                     {
                         string a = dt.Rows[i][dt.Columns[0].Caption.ToString()].ToString();
                         DateTime dta = Convert.ToDateTime(a);
-                        val = "'" + dta + ",1'";
+                        val = val + "'" + dta + ",1'";
 
                     }
                     else if (vTur[0] == "string")
                     {
-                        val = "'" + dt.Rows[i][dt.Columns[0].Caption.ToString()].ToString() + "'";
+                        val = val + "'" + dt.Rows[i][dt.Columns[0].Caption.ToString()].ToString() + "'";
 
                     }
                     for (int j = 1; j < dataGridView1.Columns.Count; j++)
@@ -174,18 +180,40 @@ namespace ImportExcell.Forms
 
         #endregion
 
-        
+
 
         private void btnSaveAnother_Click(object sender, EventArgs e)
         {
             var Vform = new SaveAnotherTable();
             Vform.ShowDialog();
-
-             for (int i = 0; i < dt.Rows.Count; i++)
+            List<string> Ids = new List<string>();
+            try
             {
-                string a = dt.Rows[i][Vform.ExcellColumn].ToString();
-                MessageBox.Show(a);
+                sqlCmd.GetSequenceValue($"SQE_{Vform.TableName}_ID");
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    string ID = sqlCmd.GetSequenceValue($"SQE_{Vform.TableName}_ID").ToString();
+                    string Name = dt.Rows[i][Vform.ExcellColumn].ToString();
+                    SQL.Nvl(sqlCmd.ExecuteScalar($"SELECT ID from {Vform.TableName} where {Vform.TableColumn}='{Name}'",true));
+                    string CheckValue = SQL.Nvl(sqlCmd.ExecuteScalar($"SELECT ID from {Vform.TableName} where {Vform.TableColumn}='{Name}'",true));
+                    if (!string.IsNullOrEmpty(CheckValue)&&CheckValue!="-1")
+                    {
+                        dt.Rows[i][Vform.ExcellColumn] = CheckValue;
+                    }
+                    else
+                    {
+                        sqlCmd.ExecuteNonQuery($"insert into {Vform.TableName}(ID,{Vform.TableColumn}) values({ID},'{Name}')");
+                        dt.Rows[i][Vform.ExcellColumn] = ID;
+                    }
+                    //MessageBox.Show(Name);
+                    
+                    // MessageBox.Show(dt.Rows[i][Vform.ExcellColumn].ToString());
+
+                }
             }
+            catch { }
+
+
 
 
         }
